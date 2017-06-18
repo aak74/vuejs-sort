@@ -7498,7 +7498,7 @@ exports.insert = function (css) {
 }
 
 },{}],5:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".control {\n    position: absolute;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n    font-size: 20px;\n}\n.item {\n    display: inline-block;\n    width: 20px;\n    height: 10px;\n    margin-right: 5px;\n}\n.item-column {\n    background-color: green;\n}\n.item .item-num {\n    text-align: center;\n}\n.item .beSwapedColumn {\n    background-color: red;\n}\n.item .swapColumn {\n    background-color: blue;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".control {\n    position: absolute;\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    font-size: 20px;\n}\n\n.one-sort {\n    margin-bottom: 20px;\n}")
 ;(function(){
 'use strict';
 
@@ -7506,41 +7506,33 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _QuickSort = require('./QuickSort');
+var _Sort = require('./Sort.vue');
 
-var go = function go() {
-    var results = (0, _QuickSort.quickSort)(arr);
-    var ticks = setInterval(function () {
-        if (results.length) {
-            _data.arr = results.shift();
-        } else {
-            clearInterval(ticks);
-        }
-    }, 100);
-};
+var _Sort2 = _interopRequireDefault(_Sort);
 
-var arr = [2, 42, 3, 19, 6, 32, 15, 7, 49, 30, 38, 36, 17, 2, 14, 46, 39, 41, 3, 44, 4, 1, 22, 29, 22, 23, 8, 33, 10, 16, 48, 31, 34, 12, 27, 40, 20, 35, 21, 25];
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialArr = [2, 42, 3, 19, 6, 32, 15, 7, 49, 30, 38, 36, 17, 2, 14, 46, 39, 41, 3, 44, 4, 1, 22, 29, 22, 23, 8, 33, 10, 16, 48, 31, 34, 12, 27, 40, 20, 35, 21, 25];
+
 var _data = {
-    arr: [arr]
+    arr: [initialArr]
 };
 
 exports.default = {
+    name: 'App',
     data: function data() {
         return _data;
     },
 
-    methods: {
-        go: go
+    components: {
+        sort: _Sort2.default
     }
 };
-
-
-go();
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('button',{staticClass:"control",on:{"click":_vm.go}},[_vm._v("Go")]),_vm._v(" "),_vm._l((_vm.arr[0]),function(col){return _c('div',{staticClass:"item",attrs:{"track-by":"$index"}},[_c('div',{staticClass:"item-column",class:{ 'beSwapedColumn': _vm.$index == _vm.arr[1], 'swapColumn': _vm.$index == _vm.arr[2] },style:({height: col * 10 + 'px'})}),_vm._v(" "),_c('div',{staticClass:"item-num"},[_vm._v(_vm._s(col))])])})],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('button',{staticClass:"control",on:{"click":_vm.start}},[_vm._v("Start")]),_vm._v(" "),_c('div',{staticClass:"sort-list"},[_c('sort',{attrs:{"data-sort":"QuickSort"}}),_vm._v(" "),_c('sort',{attrs:{"data-sort":"BubbleSort"}})],1)])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7553,13 +7545,13 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-f0f68d7e", __vue__options__)
   }
 })()}
-},{"./QuickSort":6,"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
+},{"./Sort.vue":7,"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.quickSort = quickSort;
+exports.sort = sort;
 var results = [];
 
 function _saveState(arr, left, right) {
@@ -7572,6 +7564,9 @@ function _saveState(arr, left, right) {
 }
 
 function _swap(arr, left, right) {
+    if (left == right) {
+        return;
+    }
     var temp = arr[left];
     arr[left] = arr[right];
     arr[right] = temp;
@@ -7579,7 +7574,7 @@ function _swap(arr, left, right) {
     _saveState(arr, left, right);
 }
 
-function quickSort(arr, head, end) {
+function sort(arr, head, end) {
     if (typeof head == "undefined") head = 0;
     if (typeof end == "undefined") end = arr.length - 1;
 
@@ -7595,18 +7590,71 @@ function quickSort(arr, head, end) {
     }
     _swap(arr, startIndex, end);
 
-    if (startIndex > head) quickSort(arr, head, startIndex - 1);
-    if (startIndex < end) quickSort(arr, startIndex + 1, end);
+    if (startIndex > head) sort(arr, head, startIndex - 1);
+    if (startIndex < end) sort(arr, startIndex + 1, end);
 
     return results;
 }
 
 },{}],7:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".item {\n    display: inline-block;\n    width: 20px;\n    height: 10px;\n    margin-right: 5px;\n}\n\n.item-column {\n    background-color: green;\n}\n\n.item .item-num {\n    text-align: center;\n}\n\n.item-column.swap-left {\n    background-color: red;\n}\n\n.item-column.swap-right {\n    background-color: blue;\n}")
+;(function(){
 'use strict';
 
-var _vue = require('vue');
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-var _vue2 = _interopRequireDefault(_vue);
+var _QuickSort = require('./QuickSort');
+
+var initialArr = [2, 42, 3, 19, 6, 32, 15, 7, 49, 30, 38, 36, 17, 2, 14, 46, 39, 41, 3, 44, 4, 1, 22, 29, 22, 23, 8, 33, 10, 16, 48, 31, 34, 12, 27, 40, 20, 35, 21, 25];
+
+var _data = {
+    arr: [initialArr]
+};
+
+var start = function start() {
+    var arr = initialArr.slice();
+    vizualize((0, _QuickSort.sort)(arr));
+};
+
+var vizualize = function vizualize(results) {
+    var ticks = setInterval(function () {
+        if (results.length) {
+            _data.arr = results.shift();
+        } else {
+            clearInterval(ticks);
+        }
+    }, 100);
+};
+
+start();
+
+exports.default = {
+    name: 'sort',
+    data: function data() {
+        return _data;
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"one-sort"},_vm._l((_vm.arr[0]),function(col,index){return _c('div',{staticClass:"item"},[_c('div',{staticClass:"item-column",class:{ 'swap-left': index == _vm.arr[1], 'swap-right': index == _vm.arr[2] },style:({height: col * 8 + 'px'})}),_vm._v(" "),_c('div',{staticClass:"item-num"},[_vm._v(_vm._s(col))])])}))}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-edb675a4", __vue__options__)
+  } else {
+    hotAPI.rerender("data-v-edb675a4", __vue__options__)
+  }
+})()}
+},{"./QuickSort":6,"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],8:[function(require,module,exports){
+'use strict';
 
 var _App = require('./App.vue');
 
@@ -7614,11 +7662,11 @@ var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-new _vue2.default({
+new Vue({
   components: { App: _App2.default },
   render: function render(h) {
     return h(_App2.default);
   }
 }).$mount('#app');
 
-},{"./App.vue":5,"vue":3}]},{},[7]);
+},{"./App.vue":5}]},{},[8]);
