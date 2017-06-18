@@ -7498,7 +7498,7 @@ exports.insert = function (css) {
 }
 
 },{}],5:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".control {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    font-size: 20px;\n}\n\n.one-sort {\n    margin-bottom: 20px;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".control {\n    position: absolute;\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    font-size: 20px;\n}\n\n.one-sort {\n    margin-bottom: 20px;\n    margin-left: 120px;\n}")
 ;(function(){
 'use strict';
 
@@ -7506,35 +7506,40 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
 var _Sort = require('./Sort.vue');
 
 var _Sort2 = _interopRequireDefault(_Sort);
 
 var _QuickSort = require('./QuickSort');
 
+var _BubbleSort = require('./BubbleSort');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialArr = [2, 42, 3, 19, 6, 32, 15, 7, 49, 30, 38, 36, 17, 2, 14, 46, 39, 41, 3, 44, 4, 1, 22, 29, 22, 23, 8, 33, 10, 16, 48, 31, 34, 12, 27, 40, 20, 35, 21, 25];
 
 var _data = {
-    arr: [initialArr],
-    left: 0,
-    right: initialArr.length - 1
+    qsArray: [initialArr, 0, initialArr.length - 1],
+    bsArray: [initialArr, 0, 1]
 };
 var results = void 0;
 
 var start = function start() {
-    var arr = initialArr.slice();
-    visualize((0, _QuickSort.sort)(arr));
+    visualize(_data.qsArray, (0, _QuickSort.sort)(initialArr.slice()));
+    visualize(_data.bsArray, (0, _BubbleSort.sort)(initialArr.slice()));
 };
 
-var visualize = function visualize(results) {
+var visualize = function visualize(resArray, results) {
     var ticks = setInterval(function () {
         if (results.length) {
             var res = results.shift();
-            Vue.set(_data.arr, 0, res[0]);
-            _data.left = res[1];
-            _data.right = res[2];
+            _vue2.default.set(resArray, 0, res[0]);
+            _vue2.default.set(resArray, 1, res[1]);
+            _vue2.default.set(resArray, 2, res[2]);
         } else {
             clearInterval(ticks);
         }
@@ -7552,18 +7557,13 @@ exports.default = {
     },
     components: {
         sort: _Sort2.default
-    },
-    computed: {
-        ina: function ina() {
-            return _data.arr;
-        }
     }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('button',{staticClass:"control",on:{"click":_vm.start}},[_vm._v("Start")]),_vm._v(" "),_c('div',{staticClass:"sort-list"},[_c('sort',{attrs:{"algorithm":"QuickSort","inarr":_vm.ina,"left":_vm.left,"right":_vm.right}})],1)])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('button',{staticClass:"control",on:{"click":_vm.start}},[_vm._v("Start")]),_vm._v(" "),_c('div',{staticClass:"sort-list"},[_c('sort',{attrs:{"algorithm":"QuickSort","inarr":_vm.qsArray}}),_vm._v(" "),_c('sort',{attrs:{"algorithm":"BubbleSort","inarr":_vm.bsArray}})],1)])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7576,7 +7576,50 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-f0f68d7e", __vue__options__)
   }
 })()}
-},{"./QuickSort":6,"./Sort.vue":7,"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
+},{"./BubbleSort":6,"./QuickSort":7,"./Sort.vue":8,"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.sort = sort;
+var resultsBs = [];
+
+function _saveState(arr, left, right) {
+    var state = [];
+    for (var v in arr) {
+        state.push(arr[v]);
+    }
+
+    resultsBs.push([state, left, right]);
+}
+
+function _swap(arr, left, right) {
+    if (left == right) {
+        return;
+    }
+    var temp = arr[left];
+    arr[left] = arr[right];
+    arr[right] = temp;
+
+    _saveState(arr, left, right);
+}
+
+function sort(arr) {
+    var swapped;
+    do {
+        swapped = false;
+        for (var i = 0; i < arr.length - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                _swap(arr, i, i + 1);
+                swapped = true;
+            }
+        }
+    } while (swapped);
+    return resultsBs;
+}
+
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7627,7 +7670,7 @@ function sort(arr, head, end) {
     return results;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".item {\n    display: inline-block;\n    width: 20px;\n    height: 10px;\n    margin-right: 5px;\n}\n\n.item-column {\n    background-color: green;\n}\n\n.item .item-num {\n    text-align: center;\n}\n\n.item-column.swap-left {\n    background-color: red;\n}\n\n.item-column.swap-right {\n    background-color: blue;\n}")
 ;(function(){
 'use strict';
@@ -7637,7 +7680,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
     name: 'sort',
-    props: ['algorithm', 'inarr', 'left', 'right'],
+    props: ['algorithm', 'inarr'],
     data: function data() {
         return { arr: this.inarr };
     }
@@ -7646,7 +7689,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"one-sort"},[_c('h2',[_vm._v(_vm._s(_vm.algorithm))]),_vm._v(" "),_vm._l((_vm.arr[0]),function(col,index){return _c('div',{staticClass:"item"},[_c('div',{staticClass:"item-column",class:{ 'swap-left': index == _vm.left, 'swap-right': index == _vm.right },style:({height: col * 8 + 'px'})}),_vm._v(" "),_c('div',{staticClass:"item-num"},[_vm._v(_vm._s(col))])])})],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"one-sort"},[_c('h2',[_vm._v(_vm._s(_vm.algorithm))]),_vm._v(" "),_vm._l((_vm.arr[0]),function(col,index){return _c('div',{staticClass:"item"},[_c('div',{staticClass:"item-column",class:{ 'swap-left': index == _vm.arr[1], 'swap-right': index == _vm.arr[2] },style:({height: col * 8 + 'px'})}),_vm._v(" "),_c('div',{staticClass:"item-num"},[_vm._v(_vm._s(col))])])})],2)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -7659,8 +7702,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-edb675a4", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],8:[function(require,module,exports){
+},{"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],9:[function(require,module,exports){
 'use strict';
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
 
 var _App = require('./App.vue');
 
@@ -7668,13 +7715,11 @@ var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-window.eventBus = new Vue();
-
-new Vue({
+new _vue2.default({
   components: { App: _App2.default },
   render: function render(h) {
     return h(_App2.default);
   }
 }).$mount('#app');
 
-},{"./App.vue":5}]},{},[8]);
+},{"./App.vue":5,"vue":3}]},{},[9]);

@@ -2,7 +2,7 @@
 <div class="one-sort">
     <h2>{{algorithm}}</h2>
     <div class="item" v-for="(col, index) in arr[0]">
-        <div class="item-column" v-bind:class="{ 'swap-left': index == left, 'swap-right': index == right }" v-bind:style="{height: col * 8 + 'px'}">
+        <div class="item-column" v-bind:class="{ 'swap-left': index == arr[1], 'swap-right': index == arr[2] }" v-bind:style="{height: col * 8 + 'px'}">
         </div>
         <div class="item-num">{{col}}</div>
     </div>
@@ -14,7 +14,7 @@
 
 export default {
     name: 'sort',
-    props: ['algorithm', 'inarr', 'left', 'right'],
+    props: ['algorithm', 'inarr'],
     data: function() {
         // console.log('data', this);
         return {arr: this.inarr};
