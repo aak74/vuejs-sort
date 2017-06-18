@@ -1,7 +1,8 @@
 <template>
 <div class="one-sort">
+    <h2>{{algorithm}}</h2>
     <div class="item" v-for="(col, index) in arr[0]">
-        <div class="item-column" v-bind:class="{ 'swap-left': index == arr[1], 'swap-right': index == arr[2] }" v-bind:style="{height: col * 8 + 'px'}">
+        <div class="item-column" v-bind:class="{ 'swap-left': index == left, 'swap-right': index == right }" v-bind:style="{height: col * 8 + 'px'}">
         </div>
         <div class="item-num">{{col}}</div>
     </div>
@@ -10,41 +11,14 @@
 
 
 <script>
-const initialArr = [2, 42, 3, 19, 6, 32, 15, 7, 49, 30, 38, 36, 17, 2, 14, 46, 39, 41, 3, 44, 4, 1, 22, 29, 22, 23, 8, 33, 10, 16, 48, 31, 34, 12, 27, 40, 20, 35, 21, 25];
-// let arr = initialArr.slice();
-let data = {
-    arr: [initialArr]
-};
-
-import {
-    sort as qs
-} from './QuickSort'
-
-var start = function() {
-    let arr = initialArr.slice();
-    vizualize(qs(arr));
-}
-
-var vizualize = function(results) {
-    let ticks = setInterval(function() {
-        if (results.length) {
-            data.arr = results.shift();
-        } else {
-            clearInterval(ticks);
-        }
-    }, 100);
-}
-
-
-start();
-
-
 
 export default {
     name: 'sort',
+    props: ['algorithm', 'inarr', 'left', 'right'],
     data: function() {
-        return data;
-    }
+        // console.log('data', this);
+        return {arr: this.inarr};
+    },
 }
 </script>
 
