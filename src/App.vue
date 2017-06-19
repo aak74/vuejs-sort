@@ -20,23 +20,16 @@ let data = {
 };
 let results;
 
-import {
-    sort as qs
-} from './QuickSort'
-
-import {
-    sort as bs
-} from './BubbleSort'
+import qs from './QuickSort'
+import bs from './BubbleSort'
 
 var start = function() {
-    // console.log('start', this, data);
-    // let arr = initialArr.slice();
     visualize(data.qsArray, qs(initialArr.slice()));
     visualize(data.bsArray, bs(initialArr.slice()));
 }
 
 var visualize = function(resArray, results) {
-    // console.log('visualize', this, results);
+    // console.log('visualize', results);
     let ticks = setInterval(function() {
         if (results.length) {
             var res = results.shift();

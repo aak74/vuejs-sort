@@ -7516,7 +7516,11 @@ var _Sort2 = _interopRequireDefault(_Sort);
 
 var _QuickSort = require('./QuickSort');
 
+var _QuickSort2 = _interopRequireDefault(_QuickSort);
+
 var _BubbleSort = require('./BubbleSort');
+
+var _BubbleSort2 = _interopRequireDefault(_BubbleSort);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7529,8 +7533,8 @@ var _data = {
 var results = void 0;
 
 var start = function start() {
-    visualize(_data.qsArray, (0, _QuickSort.sort)(initialArr.slice()));
-    visualize(_data.bsArray, (0, _BubbleSort.sort)(initialArr.slice()));
+    visualize(_data.qsArray, (0, _QuickSort2.default)(initialArr.slice()));
+    visualize(_data.bsArray, (0, _BubbleSort2.default)(initialArr.slice()));
 };
 
 var visualize = function visualize(resArray, results) {
@@ -7576,101 +7580,178 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-f0f68d7e", __vue__options__)
   }
 })()}
-},{"./BubbleSort":6,"./QuickSort":7,"./Sort.vue":8,"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
-"use strict";
+},{"./BubbleSort":6,"./QuickSort":7,"./Sort.vue":9,"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.sort = sort;
-var resultsBs = [];
 
-function _saveState(arr, left, right) {
-    var state = [];
-    for (var v in arr) {
-        state.push(arr[v]);
-    }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    resultsBs.push([state, left, right]);
-}
+exports.default = bs;
 
-function _swap(arr, left, right) {
-    if (left == right) {
-        return;
-    }
-    var temp = arr[left];
-    arr[left] = arr[right];
-    arr[right] = temp;
+var _Sort = require('./Sort');
 
-    _saveState(arr, left, right);
-}
+var _Sort2 = _interopRequireDefault(_Sort);
 
-function sort(arr) {
-    var swapped;
-    do {
-        swapped = false;
-        for (var i = 0; i < arr.length - 1; i++) {
-            if (arr[i] > arr[i + 1]) {
-                _swap(arr, i, i + 1);
-                swapped = true;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function bs(arr) {
+    var BubbleSort = function (_SomeSort) {
+        _inherits(BubbleSort, _SomeSort);
+
+        function BubbleSort() {
+            _classCallCheck(this, BubbleSort);
+
+            return _possibleConstructorReturn(this, (BubbleSort.__proto__ || Object.getPrototypeOf(BubbleSort)).apply(this, arguments));
+        }
+
+        _createClass(BubbleSort, [{
+            key: 'sort',
+            value: function sort() {
+                var swapped;
+                do {
+                    swapped = false;
+                    for (var i = 0; i < this.arr.length - 1; i++) {
+                        if (this.arr[i] > this.arr[i + 1]) {
+                            this.swap(i, i + 1);
+                            swapped = true;
+                        }
+                    }
+                } while (swapped);
             }
-        }
-    } while (swapped);
-    return resultsBs;
+        }]);
+
+        return BubbleSort;
+    }(_Sort2.default);
+
+    var bs = new BubbleSort(arr);
+    bs.sort();
+    return bs.steps;
 }
 
-},{}],7:[function(require,module,exports){
-"use strict";
+},{"./Sort":8}],7:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.sort = sort;
-var results = [];
 
-function _saveState(arr, left, right) {
-    var state = [];
-    for (var v in arr) {
-        state.push(arr[v]);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.default = qs;
+
+var _Sort = require('./Sort');
+
+var _Sort2 = _interopRequireDefault(_Sort);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QuickSort = function (_SomeSort) {
+    _inherits(QuickSort, _SomeSort);
+
+    function QuickSort() {
+        _classCallCheck(this, QuickSort);
+
+        return _possibleConstructorReturn(this, (QuickSort.__proto__ || Object.getPrototypeOf(QuickSort)).apply(this, arguments));
     }
 
-    results.push([state, left, right]);
-}
+    _createClass(QuickSort, [{
+        key: 'sort',
+        value: function sort(head, end) {
+            if (typeof head == "undefined") head = 0;
+            if (typeof end == "undefined") end = this.arr.length - 1;
 
-function _swap(arr, left, right) {
-    if (left == right) {
-        return;
-    }
-    var temp = arr[left];
-    arr[left] = arr[right];
-    arr[right] = temp;
+            if (head == end) return;
 
-    _saveState(arr, left, right);
-}
+            var startIndex = head;
+            var pivot = this.arr[end];
 
-function sort(arr, head, end) {
-    if (typeof head == "undefined") head = 0;
-    if (typeof end == "undefined") end = arr.length - 1;
+            for (var v = head; v < end; v++) {
+                if (this.arr[v] < pivot) {
+                    this.swap(startIndex++, v);
+                }
+            }
+            this.swap(startIndex, end);
 
-    if (head == end) return;
-
-    var startIndex = head;
-    var pivot = arr[end];
-
-    for (var v = head; v < end; v++) {
-        if (arr[v] < pivot) {
-            _swap(arr, startIndex++, v);
+            if (startIndex > head) this.sort(head, startIndex - 1);
+            if (startIndex < end) this.sort(startIndex + 1, end);
         }
-    }
-    _swap(arr, startIndex, end);
+    }]);
 
-    if (startIndex > head) sort(arr, head, startIndex - 1);
-    if (startIndex < end) sort(arr, startIndex + 1, end);
+    return QuickSort;
+}(_Sort2.default);
 
-    return results;
+function qs(arr) {
+    var qs = new QuickSort(arr);
+    qs.sort();
+    return qs.steps;
 }
 
-},{}],8:[function(require,module,exports){
+},{"./Sort":8}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var SomeSort = function () {
+    function SomeSort(arr) {
+        _classCallCheck(this, SomeSort);
+
+        this.steps = [];
+        this.arr = arr;
+    }
+
+    _createClass(SomeSort, [{
+        key: 'saveStep',
+        value: function saveStep(left, right) {
+            var state = [];
+            for (var v in this.arr) {
+                state.push(this.arr[v]);
+            }
+            this.steps.push([state, left, right]);
+        }
+    }, {
+        key: 'swap',
+        value: function swap(left, right) {
+            if (left == right) {
+                return;
+            }
+            var temp = this.arr[left];
+            this.arr[left] = this.arr[right];
+            this.arr[right] = temp;
+
+            this.saveStep(left, right);
+        }
+    }, {
+        key: 'sort',
+        value: function sort(left, right) {}
+    }]);
+
+    return SomeSort;
+}();
+
+exports.default = SomeSort;
+
+},{}],9:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".item {\n    display: inline-block;\n    width: 20px;\n    height: 10px;\n    margin-right: 5px;\n}\n\n.item-column {\n    background-color: green;\n}\n\n.item .item-num {\n    text-align: center;\n}\n\n.item-column.swap-left {\n    background-color: red;\n}\n\n.item-column.swap-right {\n    background-color: blue;\n}")
 ;(function(){
 'use strict';
@@ -7699,10 +7780,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-edb675a4", __vue__options__)
   } else {
-    hotAPI.reload("data-v-edb675a4", __vue__options__)
+    hotAPI.rerender("data-v-edb675a4", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],9:[function(require,module,exports){
+},{"vue":3,"vue-hot-reload-api":2,"vueify/lib/insert-css":4}],10:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -7722,4 +7803,4 @@ new _vue2.default({
   }
 }).$mount('#app');
 
-},{"./App.vue":5,"vue":3}]},{},[9]);
+},{"./App.vue":5,"vue":3}]},{},[10]);

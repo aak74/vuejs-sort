@@ -1,43 +1,32 @@
-var results = [];
+'use strict';
 
-function _saveState(arr, left, right) {
-    var state = [];
-    for (var v in arr) {
-        state.push(arr[v]);
-    }
+import SomeSort from './Sort'
 
-    results.push([state, left, right]);
-}
+class QuickSort extends SomeSort {
 
-function _swap(arr, left, right) {
-    if (left == right) {
-        return;
-    }
-    var temp = arr[left];
-    arr[left] = arr[right];
-    arr[right] = temp;
+    sort(head, end) {
+        if (typeof head == "undefined") head = 0;
+        if (typeof end == "undefined") end = this.arr.length - 1;
 
-    _saveState(arr, left, right);
-}
+        if (head == end) return;
 
-export function sort(arr, head, end) {
-    if (typeof head == "undefined") head = 0;
-    if (typeof end == "undefined") end = arr.length - 1;
+        var startIndex = head;
+        var pivot = this.arr[end];
 
-    if (head == end) return;
-
-    var startIndex = head;
-    var pivot = arr[end];
-
-    for (var v = head; v < end; v++) {
-        if (arr[v] < pivot) {
-            _swap(arr, startIndex++, v);
+        for (var v = head; v < end; v++) {
+            if (this.arr[v] < pivot) {
+                this.swap(startIndex++, v);
+            }
         }
+        this.swap(startIndex, end);
+
+        if (startIndex > head) this.sort(head, startIndex - 1);
+        if (startIndex < end) this.sort(startIndex + 1, end);
     }
-    _swap(arr, startIndex, end);
+}
 
-    if (startIndex > head) sort(arr, head, startIndex - 1);
-    if (startIndex < end) sort(arr, startIndex + 1, end);
-
-    return results;
+export default function qs(arr) {
+    let qs = new QuickSort(arr);
+    qs.sort();
+    return qs.steps;
 }

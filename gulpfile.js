@@ -32,7 +32,7 @@ gulp.task('watch', ['js'], function() {
 gulp.task('serve', ['watch'], function() {
     browserSync.init({
         server: "./",
-        reloadDelay: 1000
+        reloadDelay: 2000
     });
 
     gulp.watch('./src/*').on('change', browserSync.reload);
